@@ -168,9 +168,11 @@ Aşağıdaki işlemleri yapmak için indekseGoreFenomen işlevini kullanın:
 NOT: DÖNDÜĞÜNÜZ DİZİN YUKARIDAKİ BİÇİMLE EŞLEŞMESİ GEREKİR, YA DA TESTİ GEÇMEYECEKTİR!
 ÖRNEK: fenomenler dizisi ve 3 sayısı ile indekseGoreFenomen çağrılırsa, `3. indekste bulunan fenomen: Leo Messi' */
 
-function indekseGoreFenomen(/*kod*/) {
-  /*kod*/
+function indekseGoreFenomen(fenomenler, indeksSayisi) {
+  let sonuc = `${indeksSayisi}. indekste bulunan fenomen: ${fenomenler[indeksSayisi].profile}`;
+  return sonuc
 }
+
 
 
 
@@ -182,8 +184,12 @@ Aşağıdakileri yapmak için profilListesi'ni kullanın:
 🌟 Dönüş ÖRNEĞİ: ["Instagram", "Cristiano Ronaldo", "Kylie"....]
 */
 
-function profilListesi(/*kod*/) {
-  /*kod*/
+function profilListesi(fenomenler) {
+  let profileList=[];
+  for (let i = 0; i<fenomenler.length; i++){
+    profileList.push(fenomenler[i].profile);
+  }
+  return profileList;
 }
 
 
@@ -197,8 +203,9 @@ Aşağıdakileri yapmak için fenomenSil'i kullanın:
 5. Ortaya çıkan diziyi döndürün
 
 ÖRNEK: fenomenSil işlevi fenomenler dizisi ve 0 indeks sayısı ile çağrılırsa, veri kümemizden 'Instagram' kaldırılmış olarak döndürür. */
-function fenomenSil(/*kod*/) {
-  /*kod*/
+function fenomenSil(fenomenler, cikarilacakIndeksSayisi) {
+  fenomenler.splice(cikarilacakIndeksSayisi,1);
+  return fenomenler;
 }
 
 
@@ -220,8 +227,16 @@ Aşağıdakileri yapmak için fenomenEkle'i kullanın:
 
 ÖRNEK: fenomenEkle(fenomenler, 6, "Workintech", 10000000, 2022, "Instagram") çağrıldığında dizinin sonuna yukarıdaki nesne en sona eklenerek yeni fenomenler dizisini döndürmelidir. */
 
-function fenomenEkle(/*kod*/) {
-  /*kod*/
+function fenomenEkle(fenomenler, newNumber, newProfile, newFollowers, newPosts, newPlatform) {
+  let newFenomen = {
+    number: newNumber,
+    profile: newProfile,
+    followers: newFollowers,
+    posts: newPosts,
+    platform: newPlatform,
+  }
+  fenomenler.push(newFenomen);
+  return fenomenler;  
 }
 
 
@@ -233,9 +248,16 @@ Aşağıdakileri yapmak için enFenomenler'yi kullanın:
 ÖRNEK: enFenomenler(fenomenler) çağrıldığında sonuç olarak ["Instagram", "Cristiano Ronaldo", ... "Khabane lame"] dönemelidir
 */
 
-function enFenomenler(/*kod*/) {
-  /*kod*/
+function enFenomenler(fenomenler) {
+  let enFenomenler=[];
+  for (let i=0; i<fenomenler.length;i++){
+    if (fenomenler[i].followers > 100000000){
+      enFenomenler.push(fenomenler[i].profile);
+    }
+  }
+  return enFenomenler;
 }
+
 
 
 /* Görev 8:
@@ -247,8 +269,14 @@ Aşağıdakileri yapmak için fenomenGonderimSayisi'nı kullanın:
 ÖRNEK: fenomenGonderimSayisi(fenomenler, 'Will Smith') çağrıldığında "136" dönmelidir
 */
 
-function fenomenGonderimSayisi(/*kod*/){
-  /*kod*/
+function fenomenGonderimSayisi(fenomenler, fenomenAdi){
+  let sonuc= null;
+  for (let i = 0; i < fenomenler.length; i ++){
+    if (fenomenler[i].profile === fenomenAdi){
+      sonuc = fenomenler[i].posts;
+    }
+  }
+  return sonuc;
 }
 
 
@@ -264,11 +292,52 @@ Not: Gönderi sayısı belli olmayan (NA) hesaba katmayın.
 Örnek: platformaGoreCokGonderiYapanFenomen(fenomenler, 'TikTok') çağrıldığında "charli damelio" dönmelidir
 */
 
-function platformaGoreCokGonderiYapanFenomen(/*kod*/){
-  /*kod*/
+function platformaGoreCokGonderiYapanFenomen(fenomenler, platformAdi){
+  let maxIndexNoInstagram = 0;
+  let maxIndexNoTwitter = 0;
+  let maxIndexNoTwitch = 0;
+  let maxIndexNoTikTok = 0;
+  let maxPostsNoInstagram = 0;
+  let maxPostsNoTwitter = 0;
+  let maxPostsNoTwitch = 0;
+  let maxPostsNoTikTok = 0;
+  for (let i =0; i<fenomenler.length;i++){
+    if (platformAdi===fenomenler[i].platform){
+      if(platformAdi==="Instagram"){
+        if(fenomenler[i].posts>maxPostsNoInstagram){
+          maxPostsNoInstagram = fenomenler[i].posts;
+          maxIndexNoInstagram = i;
+        }
+      }else if(platformAdi==="Twitter"){
+        if(fenomenler[i].posts>maxPostsNoTwitter){
+          maxPostsNoTwitter = fenomenler[i].posts;
+          maxIndexNoTwitter = i;
+        }
+      }else if(platformAdi==="Twitch"){
+        if(fenomenler[i].posts>maxPostsNoTwitch){
+          maxPostsNoTwitch = fenomenler[i].posts;
+          maxIndexNoTwitch = i;
+        }
+      }else if(platformAdi==="TikTok"){
+        if(fenomenler[i].posts>maxPostsNoTikTok){
+          maxPostsNoTikTok = fenomenler[i].posts;
+          maxIndexNoTikTok = i;
+        }
+      }
+    }
+  }
+  
+  if (platformAdi==="Instagram"){
+    return fenomenler[maxIndexNoInstagram].profile;
+  } else if(platformAdi==="Twitter"){
+    return fenomenler[maxIndexNoTwitter].profile;
+  } else if(platformAdi==="Twitch"){
+    return fenomenler[maxIndexNoTwitch].profile;
+  } else if(platformAdi==="TikTok"){
+    return fenomenler[maxIndexNoTikTok].profile;
+  }
+  
 }
-
-
 
 /* ***** GÖREVLERİN SONU ***** */
 
